@@ -33,7 +33,7 @@ public class GUI implements Listener {
         this.parentGUI = parentGUI;
 
         if(parentGUI != null){
-            pages.get(0).setItem(0, GUILib.getInstance().getParentGUIArrow());
+            pages.get(0).setItem(0, GUILib.getParentGUIArrow());
         }
 
         //load the first page
@@ -54,10 +54,10 @@ public class GUI implements Listener {
             Inventory nextPageFromRight = pages.get(pages.size()-1);
 
             //Add right arrow to current rightmost page
-            nextPageFromRight.setItem(nextPageFromRight.getSize()-1, GUILib.getInstance().getRightArrow());
+            nextPageFromRight.setItem(nextPageFromRight.getSize()-1, GUILib.getRightArrow());
 
             //add left arrow to new rightmost page
-            newPage.setItem(size-9, GUILib.getInstance().getLeftArrow());
+            newPage.setItem(size-9, GUILib.getLeftArrow());
         }
         //add left page changer to new rightmost page
 
@@ -146,9 +146,9 @@ public class GUI implements Listener {
 
     private void checkIfArrows(InventoryClickEvent e){
         //check if item is an arrow or points to a child/parent gui, and return if it does not
-        if(!hasItemAction(e.getCurrentItem(), GUILib.getInstance().getArrowPath())) return;
+        if(!hasItemAction(e.getCurrentItem(), GUILib.getArrowPath())) return;
 
-        int itemAction = getItemAction(e.getCurrentItem(), GUILib.getInstance().getArrowPath());
+        int itemAction = getItemAction(e.getCurrentItem(), GUILib.getArrowPath());
 
         if(!(e.getWhoClicked() instanceof Player)) return;
 

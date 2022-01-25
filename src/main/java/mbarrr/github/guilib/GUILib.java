@@ -7,38 +7,16 @@ import org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class GUILib extends JavaPlugin {
+public final class GUILib{
 
-    private String pathStart;
-    private String arrowPath;
+    private static String pathStart = "guilib_";
+    private static String arrowPath = pathStart+"arrow";
 
-    private ItemStack leftArrow;
-    private ItemStack rightArrow;
-    private ItemStack parentGUIArrow;
+    private static ItemStack leftArrow = giveItemTags(arrowPath, 0, Material.MUSIC_DISC_CAT);
+    private static ItemStack rightArrow = giveItemTags(arrowPath, 1, Material.MUSIC_DISC_CAT);
+    private static ItemStack parentGUIArrow = giveItemTags(arrowPath, 2, Material.MUSIC_DISC_BLOCKS);
 
-    @Override
-    public void onEnable() {
-        pathStart = "guilib_";
-        arrowPath = pathStart+"arrow";
-
-
-
-        loadItems();
-        this.getCommand("Debug").setExecutor(new Debug(new secGUI(9, "test", this, null)));
-    }
-
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
-    }
-
-    private void loadItems(){
-        leftArrow = giveItemTags(arrowPath, 0, Material.MUSIC_DISC_CAT);
-        rightArrow = giveItemTags(arrowPath, 1, Material.MUSIC_DISC_CAT);
-        parentGUIArrow = giveItemTags(arrowPath, 2, Material.MUSIC_DISC_BLOCKS);
-    }
-
-    private ItemStack giveItemTags(String path, int tag, Material material){
+   private static ItemStack giveItemTags(String path, int tag, Material material){
         ItemStack itemStack = new ItemStack(material);
 
         net.minecraft.server.v1_16_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(itemStack);
@@ -50,23 +28,19 @@ public final class GUILib extends JavaPlugin {
         return finishedItem;
     }
 
-    public  String getArrowPath() {
+    public static  String getArrowPath() {
         return arrowPath;
     }
 
-    public  ItemStack getLeftArrow() {
+    public static  ItemStack getLeftArrow() {
         return leftArrow;
     }
 
-    public  ItemStack getRightArrow() {
+    public static  ItemStack getRightArrow() {
         return rightArrow;
     }
 
-    public  ItemStack getParentGUIArrow() {
+    public static  ItemStack getParentGUIArrow() {
         return parentGUIArrow;
-    }
-
-    public static GUILib getInstance(){
-        return (GUILib) Bukkit.getPluginManager().getPlugin("GUILib");
     }
 }
