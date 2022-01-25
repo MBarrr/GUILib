@@ -20,11 +20,11 @@ public final class GUILib extends JavaPlugin {
     public void onEnable() {
         pathStart = "guilib_";
         arrowPath = pathStart+"arrow";
-        this.getCommand("Debug").setExecutor(new Debug(new GUI(9, "test", this, null)));
+
 
 
         loadItems();
-
+        this.getCommand("Debug").setExecutor(new Debug(new secGUI(9, "test", this, null)));
     }
 
     @Override

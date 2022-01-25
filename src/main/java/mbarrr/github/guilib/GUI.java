@@ -36,16 +36,20 @@ public class GUI implements Listener {
             pages.get(0).setItem(0, GUILib.getInstance().getParentGUIArrow());
         }
 
-
+        //load the first page
         addPage(size,title);
     }
 
     public void addPage(int size, String title){
 
+        Bukkit.getConsoleSender().sendMessage("addpageeeee");
+
         //add right page changer to old rightmost page
         Inventory newPage = Bukkit.createInventory(null, size, title);
 
         if(!pages.isEmpty()) {
+
+            Bukkit.getConsoleSender().sendMessage("not emptyeeeeeee");
             //Get the current rightmost page
             Inventory nextPageFromRight = pages.get(pages.size()-1);
 
@@ -163,7 +167,6 @@ public class GUI implements Listener {
                 //open parent gui
                 parentGUI.openInventory(player, 0);
                 break;
-
             default:
                 break;
         }
@@ -172,6 +175,7 @@ public class GUI implements Listener {
 
     //item clicked on is neithern null nor air, override this method for whateever tf
     public void clickValid(InventoryClickEvent e){
+
 
     }
 

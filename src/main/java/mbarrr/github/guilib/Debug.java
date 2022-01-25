@@ -7,8 +7,8 @@ import org.bukkit.entity.Player;
 
 public class Debug implements CommandExecutor {
 
-    GUI gui;
-    public Debug(GUI gui){
+    secGUI gui;
+    public Debug(secGUI gui){
         this.gui = gui;
     }
 
@@ -30,7 +30,7 @@ public class Debug implements CommandExecutor {
                 break;
             case "open":
                 player.sendMessage("opening");
-                gui.openInventory(player, 0);
+                gui.openInventory(player, Integer.parseInt(args[1]));
                 break;
             case "removepage":
                 player.sendMessage("index");
