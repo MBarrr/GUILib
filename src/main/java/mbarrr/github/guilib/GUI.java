@@ -1,9 +1,7 @@
 package mbarrr.github.guilib;
 
-import net.minecraft.server.v1_16_R3.NBTTagCompound;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,10 +9,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
-import sun.jvm.hotspot.debugger.Page;
-
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +21,7 @@ public class GUI implements Listener {
     private GUI parentGUI;
     private List<Inventory> pages;
 
-    public GUI(int size, String title, Plugin instance, @Nullable GUI parentGUI) {
+    public GUI(int size, String title, Plugin instance, GUI parentGUI) {
         instance.getServer().getPluginManager().registerEvents(this, instance);
 
         pages = new ArrayList<>();
@@ -105,20 +102,16 @@ public class GUI implements Listener {
 
 
     //add an item to the GUI
-    public void addItem(ItemStack itemStack, String path, int tag, int position, int page){
+    public void addItem(ItemStack itemStack, NamespacedKey key, int tag, int position, int page){
+
         ItemMeta itemMeta = itemStack.getItemMeta();
+        PersistentDataContainer container = itemMeta.getPersistentDataContainer();
+        container.set(key, PersistentDataType.INTEGER, tag);
         itemStack.setItemMeta(itemMeta);
-
-        net.minecraft.server.v1_16_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(itemStack);
-        NBTTagCompound itemcompound = (nmsItem.hasTag()) ? nmsItem.getTag() : new NBTTagCompound();
-        itemcompound.setInt(path, tag);
-        nmsItem.setTag(itemcompound);
-
-        ItemStack finishedItem = CraftItemStack.asBukkitCopy(nmsItem);
 
         if(pages.size()+1 < page) return;
 
-        pages.get(page).setItem(position, finishedItem);
+        pages.get(page).setItem(position, itemStack);
     }
 
     // You can open the inventory with this
@@ -146,9 +139,9 @@ public class GUI implements Listener {
 
     private void checkIfArrows(InventoryClickEvent e){
         //check if item is an arrow or points to a child/parent gui, and return if it does not
-        if(!hasItemAction(e.getCurrentItem(), GUILib.getInstance().getArrowPath())) return;
+        if(!hasItemAction(e.getCurrentItem(), GUILib.getInstance().getArrowKey())) return;
 
-        int itemAction = getItemAction(e.getCurrentItem(), GUILib.getInstance().getArrowPath());
+        int itemAction = getItemAction(e.getCurrentItem(), GUILib.getInstance().getArrowKey());
 
         if(!(e.getWhoClicked() instanceof Player)) return;
 
@@ -179,16 +172,17 @@ public class GUI implements Listener {
 
     }
 
-    public int getItemAction(ItemStack item, String action){
-        net.minecraft.server.v1_16_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
-        NBTTagCompound itemcompound = (nmsItem.hasTag()) ? nmsItem.getTag() : new NBTTagCompound();
-        return itemcompound.getInt(action);
+    public int getItemAction(ItemStack item, NamespacedKey key){
+        ItemMeta itemMeta = item.getItemMeta();
+        PersistentDataContainer container = itemMeta.getPersistentDataContainer();
+        return(container.get(key, PersistentDataType.INTEGER));
+
     }
 
-    public boolean hasItemAction(ItemStack item, String action){
-        net.minecraft.server.v1_16_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
-        NBTTagCompound itemcompound = (nmsItem.hasTag()) ? nmsItem.getTag() : new NBTTagCompound();
-        return itemcompound.hasKey(action);
+    public boolean hasItemAction(ItemStack item, NamespacedKey key){
+        ItemMeta itemMeta = item.getItemMeta();
+        PersistentDataContainer container = itemMeta.getPersistentDataContainer();
+        return container.has(key, PersistentDataType.INTEGER);
     }
 
     protected Inventory getInv(int page){

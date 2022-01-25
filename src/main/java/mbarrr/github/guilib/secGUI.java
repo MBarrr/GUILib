@@ -2,30 +2,34 @@ package mbarrr.github.guilib;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import javax.annotation.Nullable;
+
 
 public class secGUI extends GUI{
-    public secGUI(int size, String title, Plugin instance, @Nullable GUI parentGUI) {
+
+    NamespacedKey testKey = new NamespacedKey(GUILib.getInstance(), "test");
+
+    public secGUI(int size, String title, Plugin instance, GUI parentGUI) {
         super(size, title, instance, parentGUI);
 
         addPage(size, "page2");
         addPage(size, "page3");
 
-        addItem(new ItemStack(Material.DIRT), "test", 0, 3, 0);
-        addItem(new ItemStack(Material.DIRT), "test", 1, 4, 1);
-        addItem(new ItemStack(Material.DIRT), "test", 2, 2, 2);
+        addItem(new ItemStack(Material.DIRT), testKey, 0, 3, 0);
+        addItem(new ItemStack(Material.DIRT), testKey, 1, 4, 1);
+        addItem(new ItemStack(Material.DIRT), testKey, 2, 2, 2);
     }
 
 
 
     @Override
     public void clickValid(InventoryClickEvent e){
-        if(!hasItemAction(e.getCurrentItem(), "test")) return;
-        int action = getItemAction(e.getCurrentItem(), "test");
+        if(!hasItemAction(e.getCurrentItem(), testKey)) return;
+        int action = getItemAction(e.getCurrentItem(), testKey);
 
         switch(action){
             case 0:

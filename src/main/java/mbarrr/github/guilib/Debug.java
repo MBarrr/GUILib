@@ -1,5 +1,6 @@
 package mbarrr.github.guilib;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,7 +16,7 @@ public class Debug implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-
+        NamespacedKey testKey = new NamespacedKey(GUILib.getInstance(), "test");
         Player player = (Player) sender;
         String asd = args[0];
 
@@ -26,7 +27,7 @@ public class Debug implements CommandExecutor {
                 break;
             case "additem":
                 player.sendMessage("position, page");
-                gui.addItem(player.getInventory().getItemInMainHand(), "raaa", 1, Integer.parseInt(args[1]), Integer.parseInt(args[2]));
+                gui.addItem(player.getInventory().getItemInMainHand(), testKey, 1, Integer.parseInt(args[1]), Integer.parseInt(args[2]));
                 break;
             case "open":
                 player.sendMessage("opening");
