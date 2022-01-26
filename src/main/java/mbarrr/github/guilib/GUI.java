@@ -172,6 +172,20 @@ public class GUI implements Listener {
 
     }
 
+    public ItemStack renameItem(ItemStack item, String name){
+        ItemMeta itemMeta = item.getItemMeta();
+        itemMeta.setDisplayName(name);
+        item.setItemMeta(itemMeta);
+        return item;
+    }
+
+    public ItemStack setItemLore(ItemStack item, List<String> lore){
+        ItemMeta itemMeta = item.getItemMeta();
+        itemMeta.setLore(lore);
+        item.setItemMeta(itemMeta);
+        return item;
+    }
+
     public int getItemAction(ItemStack item, NamespacedKey key){
         ItemMeta itemMeta = item.getItemMeta();
         PersistentDataContainer container = itemMeta.getPersistentDataContainer();
