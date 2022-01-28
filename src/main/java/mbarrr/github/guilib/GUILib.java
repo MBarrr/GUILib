@@ -14,9 +14,6 @@ public final class GUILib{
 
     Plugin instance;
 
-
-
-
     private String pathStart = "guilib_";
 
     NamespacedKey arrowKey;

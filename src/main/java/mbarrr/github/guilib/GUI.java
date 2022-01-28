@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //TODO
-//add instance variable
+//add getter for guiLib
 
 public class GUI implements Listener {
 
@@ -30,6 +30,7 @@ public class GUI implements Listener {
 
         this.guiLib = guiLib;
 
+        childGUIS = new ArrayList<>();
         pages = new ArrayList<>();
 
         // Create a new inventory, with no owner. size and title taken from args
