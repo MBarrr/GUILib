@@ -14,19 +14,26 @@ public final class GUILib{
 
     Plugin instance;
 
-    public GUILib(Plugin instance){
-        this.instance = instance;
-    }
 
 
 
     private String pathStart = "guilib_";
 
-    NamespacedKey arrowKey = new NamespacedKey(instance, pathStart+"arrow");
+    NamespacedKey arrowKey;
 
-    private ItemStack leftArrow = giveItemTags(arrowKey, 0, Material.MUSIC_DISC_CAT);
-    private ItemStack rightArrow = giveItemTags(arrowKey, 1, Material.MUSIC_DISC_CAT);
-    private ItemStack parentGUIArrow = giveItemTags(arrowKey, 2, Material.MUSIC_DISC_BLOCKS);
+    private ItemStack leftArrow;
+    private ItemStack rightArrow;
+    private ItemStack parentGUIArrow;
+
+
+    public GUILib(Plugin instance){
+        this.instance = instance;
+        arrowKey = new NamespacedKey(instance, pathStart+"arrow");
+        leftArrow = giveItemTags(arrowKey, 0, Material.MUSIC_DISC_CAT);
+        rightArrow = giveItemTags(arrowKey, 1, Material.MUSIC_DISC_CAT);
+        parentGUIArrow = giveItemTags(arrowKey, 2, Material.MUSIC_DISC_BLOCKS);
+    }
+
 
     public ItemStack giveItemTags(NamespacedKey key, int tag, Material material){
 
