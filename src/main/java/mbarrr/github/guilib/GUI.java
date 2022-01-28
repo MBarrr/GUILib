@@ -36,12 +36,14 @@ public class GUI implements Listener {
         // Create a new inventory, with no owner. size and title taken from args
         this.parentGUI = parentGUI;
 
-        if(parentGUI != null){
-            pages.get(0).setItem(0, guiLib.getParentGUIArrow());
-        }
+
 
         //load the first page
         addPage(size,title);
+
+        if(parentGUI != null){
+            pages.get(0).setItem(0, guiLib.getParentGUIArrow());
+        }
     }
 
     public void addPage(int size, String title){
