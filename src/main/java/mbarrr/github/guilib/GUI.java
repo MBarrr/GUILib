@@ -15,14 +15,20 @@ import org.bukkit.plugin.Plugin;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO
+//add instance variable
+
 public class GUI implements Listener {
 
     private List<GUI> childGUIS;
     private GUI parentGUI;
     private List<Inventory> pages;
+    private GUILib guiLib;
 
-    public GUI(int size, String title, Plugin instance, GUI parentGUI) {
+    public GUI(GUILib guiLib, int size, String title, Plugin instance, GUI parentGUI) {
         instance.getServer().getPluginManager().registerEvents(this, instance);
+
+        this.guiLib = guiLib;
 
         pages = new ArrayList<>();
 
@@ -30,7 +36,7 @@ public class GUI implements Listener {
         this.parentGUI = parentGUI;
 
         if(parentGUI != null){
-            pages.get(0).setItem(0, GUILib.getInstance().getParentGUIArrow());
+            pages.get(0).setItem(0, guiLib.getParentGUIArrow());
         }
 
         //load the first page
@@ -39,22 +45,18 @@ public class GUI implements Listener {
 
     public void addPage(int size, String title){
 
-        Bukkit.getConsoleSender().sendMessage("addpageeeee");
-
         //add right page changer to old rightmost page
         Inventory newPage = Bukkit.createInventory(null, size, title);
 
         if(!pages.isEmpty()) {
-
-            Bukkit.getConsoleSender().sendMessage("not emptyeeeeeee");
             //Get the current rightmost page
             Inventory nextPageFromRight = pages.get(pages.size()-1);
 
             //Add right arrow to current rightmost page
-            nextPageFromRight.setItem(nextPageFromRight.getSize()-1, GUILib.getInstance().getRightArrow());
+            nextPageFromRight.setItem(nextPageFromRight.getSize()-1, guiLib.getRightArrow());
 
             //add left arrow to new rightmost page
-            newPage.setItem(size-9, GUILib.getInstance().getLeftArrow());
+            newPage.setItem(size-9, guiLib.getLeftArrow());
         }
         //add left page changer to new rightmost page
 
@@ -139,9 +141,9 @@ public class GUI implements Listener {
 
     private void checkIfArrows(InventoryClickEvent e){
         //check if item is an arrow or points to a child/parent gui, and return if it does not
-        if(!hasItemAction(e.getCurrentItem(), GUILib.getInstance().getArrowKey())) return;
+        if(!guiLib.hasItemAction(e.getCurrentItem(), guiLib.getArrowKey())) return;
 
-        int itemAction = getItemAction(e.getCurrentItem(), GUILib.getInstance().getArrowKey());
+        int itemAction = guiLib.getItemAction(e.getCurrentItem(), guiLib.getArrowKey());
 
         if(!(e.getWhoClicked() instanceof Player)) return;
 
@@ -172,32 +174,6 @@ public class GUI implements Listener {
 
     }
 
-    public ItemStack renameItem(ItemStack item, String name){
-        ItemMeta itemMeta = item.getItemMeta();
-        itemMeta.setDisplayName(name);
-        item.setItemMeta(itemMeta);
-        return item;
-    }
-
-    public ItemStack setItemLore(ItemStack item, List<String> lore){
-        ItemMeta itemMeta = item.getItemMeta();
-        itemMeta.setLore(lore);
-        item.setItemMeta(itemMeta);
-        return item;
-    }
-
-    public int getItemAction(ItemStack item, NamespacedKey key){
-        ItemMeta itemMeta = item.getItemMeta();
-        PersistentDataContainer container = itemMeta.getPersistentDataContainer();
-        return(container.get(key, PersistentDataType.INTEGER));
-
-    }
-
-    public boolean hasItemAction(ItemStack item, NamespacedKey key){
-        ItemMeta itemMeta = item.getItemMeta();
-        PersistentDataContainer container = itemMeta.getPersistentDataContainer();
-        return container.has(key, PersistentDataType.INTEGER);
-    }
 
     protected Inventory getInv(int page){
         return pages.get(page);
