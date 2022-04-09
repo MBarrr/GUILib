@@ -7,14 +7,14 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.List;
 
-public class ObjectViewer extends GUI{
+public class ObjectViewer<T extends IItemObject> extends GUI{
 
     public ObjectViewer(GUILib guiLib, int size, String title, Plugin instance, GUI parentGUI) {
         super(guiLib, size, title, instance, parentGUI);
     }
 
 
-    public void loadCustomItems(List<IItemObject> items, NamespacedKey menuKey){
+    public void loadCustomItems(List<T> items, NamespacedKey menuKey){
         getInv(0).clear();
 
         for(int i = 0; i < items.size(); i++){
