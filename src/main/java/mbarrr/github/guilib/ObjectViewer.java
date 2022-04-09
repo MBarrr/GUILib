@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ObjectViewer<T extends IItemObject> extends GUI{
@@ -26,6 +27,9 @@ public class ObjectViewer<T extends IItemObject> extends GUI{
             if(adminInfo == null) continue;
 
             List<String> lore = icon.getItemMeta().getLore();
+
+            if(lore == null) lore = new ArrayList<>();
+
             lore.add("********** ADMIN INFO **********");
 
             lore.add(adminInfo);
