@@ -105,7 +105,6 @@ public class GUI implements Listener {
         childGUIS.set(index, gui);
     }
 
-
     //add an item to the GUI
     public void addItem(ItemStack itemStack, NamespacedKey key, int tag, int position, int page){
 
